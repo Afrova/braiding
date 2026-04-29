@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Полезное</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #fffafa; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .nav-link.active { color: #d950a9; font-weight: bold; border-bottom: 2px solid #d950a9; }
+    .faq-answer { display: none; padding: 0.5rem 0; }
+    .faq-question { cursor: pointer; font-weight: bold; padding: 0.75rem 0; border-bottom: 1px solid #e5e7eb; }
+    .faq-question.active + .faq-answer { display: block; }
+  </style>
+</head>
+<body class="text-gray-800">
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4 flex flex-wrap justify-between items-center py-4">
+      <a href="index.html" class="text-2xl font-bold" style="color: #d950a9;">Beauty Studio</a>
+      <div class="flex flex-wrap gap-2 text-sm items-center">
+        <a href="index.html" class="nav-link px-2 py-1 rounded">Главная</a>
+        <a href="catalog-sets.html" class="nav-link px-2 py-1 rounded">Комплекты</a>
+        <a href="masters.html" class="nav-link px-2 py-1 rounded">Мастера</a>
+        <a href="portfolio.html" class="nav-link px-2 py-1 rounded">Работы</a>
+        <a href="useful.html" class="nav-link px-2 py-1 rounded active">Полезное</a>
+        <a href="models.html" class="nav-link px-2 py-1 rounded">Модели</a>
+        <a href="promotions.html" class="nav-link px-2 py-1 rounded">Акции</a>
+        <a href="masterclasses.html" class="nav-link px-2 py-1 rounded">Мастер-классы</a>
+        <a href="profile.html" class="nav-link px-2 py-1 rounded">👤 ЛК</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4 py-8">
+    <h2 class="text-4xl font-bold mb-8" style="background: linear-gradient(135deg, #d950a9, #a532c2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Полезные материалы</h2>
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <img src="https://placehold.co/400x300/f8d5e8/d950a9?text=Уход+за+волосами" class="rounded-xl w-full">
+      <img src="https://placehold.co/400x300/f8d5e8/d950a9?text=Советы+стилиста" class="rounded-xl w-full">
+      <img src="https://placehold.co/400x300/f8d5e8/d950a9?text=Тренды+2024" class="rounded-xl w-full">
+    </div>
+    <div class="grid grid-cols-2 gap-4 mb-8">
+      <video autoplay muted loop controls class="w-full rounded-xl"><source src="https://example.com/video1.mp4" type="video/mp4"></video>
+      <video autoplay muted loop controls class="w-full rounded-xl"><source src="https://example.com/video2.mp4" type="video/mp4"></video>
+      <video autoplay muted loop controls class="w-full rounded-xl"><source src="https://example.com/video3.mp4" type="video/mp4"></video>
+      <video autoplay muted loop controls class="w-full rounded-xl"><source src="https://example.com/video4.mp4" type="video/mp4"></video>
+    </div>
+    <h3 class="text-2xl font-bold mb-4" style="color: #d950a9;">Часто задаваемые вопросы</h3>
+    <div>
+      <div class="faq-question" onclick="this.classList.toggle('active')">Как ухаживать за дредами?</div>
+      <div class="faq-answer">Мыть раз в неделю специальным шампунем, подплетать каждые 2-3 месяца.</div>
+      <div class="faq-question" onclick="this.classList.toggle('active')">Сколько держатся косы?</div>
+      <div class="faq-answer">От 1 до 3 месяцев в зависимости от типа кос и ухода.</div>
+      <div class="faq-question" onclick="this.classList.toggle('active')">Можно ли красить канекалон?</div>
+      <div class="faq-answer">Нет, канекалон не поддаётся окрашиванию. Для изменения цвета выбирайте готовые оттенки.</div>
+      <div class="faq-question" onclick="this.classList.toggle('active')">Как записаться на бесплатную консультацию?</div>
+      <div class="faq-answer">Нажмите кнопку «Бесплатная консультация» в карточке товара или свяжитесь с нами через WhatsApp/Telegram.</div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-900 text-white mt-20"><div class="container mx-auto px-4 py-8 text-center text-gray-400">© 2024 Beauty Studio</div></footer>
+</body>
+</html>

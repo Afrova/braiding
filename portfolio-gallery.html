@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Галерея работ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #fffafa; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .work-card { background: white; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow: hidden; transition: transform 0.2s; }
+    .work-card:hover { transform: translateY(-3px); }
+  </style>
+</head>
+<body class="text-gray-800">
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4 flex flex-wrap justify-between items-center py-4">
+      <a href="index.html" class="text-2xl font-bold" style="color: #d950a9;">Beauty Studio</a>
+      <a href="portfolio.html" class="text-sm font-semibold" style="color: #d950a9;">← Назад к работам</a>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4 py-8">
+    <h2 class="text-4xl font-bold mb-8" style="background: linear-gradient(135deg, #d950a9, #a532c2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Все работы</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="gallery-grid"></div>
+  </main>
+
+  <footer class="bg-gray-900 text-white mt-20"><div class="container mx-auto px-4 py-8 text-center text-gray-400">© 2024 Beauty Studio</div></footer>
+
+  <script>
+    const allWorks = [
+      { desc: "Дреды крючковые, мини, мало", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Дреды+1" },
+      { desc: "Дреды гладкие, стандарт, средне", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Дреды+2" },
+      { desc: "Косы сенегальские, макси, много", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Косы+1" },
+      { desc: "Косы трёхпрядные, стандарт, средне", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Косы+2" },
+      { desc: "Локоны Ариэль, стандарт, средне", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Локоны+1" },
+      { desc: "Локоны Джессика, макси, много", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Локоны+2" },
+      { desc: "Свободный конец, косы с прямым концом", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Свободный+1" },
+      { desc: "Свободный конец, дреды с волнистым концом", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Свободный+2" },
+      { desc: "Дреды долли, макси, много", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Дреды+долли" },
+      { desc: "Косы ажурные, мини, мало", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Косы+ажур" },
+      { desc: "Локоны Симба, стандарт, средне", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Локоны+Симба" },
+      { desc: "Дреды завитые, стандарт, средне", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Дреды+завитые" }
+    ];
+
+    document.getElementById('gallery-grid').innerHTML = allWorks.map(w => `
+      <div class="work-card">
+        <img src="${w.img}" class="w-full h-44 object-cover">
+        <div class="p-3"><p class="text-xs text-gray-600">${w.desc}</p></div>
+      </div>
+    `).join('');
+  </script>
+</body>
+</html>

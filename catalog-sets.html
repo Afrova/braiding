@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог комплектов</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #fffafa; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .nav-link.active { color: #d950a9; font-weight: bold; border-bottom: 2px solid #d950a9; }
+    .card { background: white; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); padding: 1.5rem; transition: all 0.2s; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 12px 20px -5px rgba(0,0,0,0.15); }
+    .filter-select, .filter-input { border: 1px solid #e5e7eb; padding: 0.6rem 0.8rem; border-radius: 0.6rem; background: white; width: 100%; }
+    .btn-primary { background: linear-gradient(135deg, #d950a9, #a532c2); color: white; padding: 0.7rem 1.5rem; border-radius: 0.6rem; font-weight: 600; transition: opacity 0.2s; }
+    .btn-primary:hover { opacity: 0.9; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-overlay.active { display: flex; }
+    .modal-content { background: #fffafa; border-radius: 1.5rem; max-width: 700px; width: 90%; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; }
+    .modal-close { position: absolute; top: 1rem; right: 1.5rem; background: none; border: none; font-size: 2rem; cursor: pointer; color: #d950a9; }
+    .consultation-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1001; justify-content: center; align-items: center; }
+    .consultation-modal.active { display: flex; }
+  </style>
+</head>
+<body class="text-gray-800">
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4 flex flex-wrap justify-between items-center py-4">
+      <a href="index.html" class="text-2xl font-bold" style="color: #d950a9;">Beauty Studio</a>
+      <div class="flex flex-wrap gap-2 text-sm items-center">
+        <a href="index.html" class="nav-link px-2 py-1 rounded">Главная</a>
+        <a href="catalog-sets.html" class="nav-link px-2 py-1 rounded active">Комплекты</a>
+        <a href="masters.html" class="nav-link px-2 py-1 rounded">Мастера</a>
+        <a href="portfolio.html" class="nav-link px-2 py-1 rounded">Работы</a>
+        <a href="useful.html" class="nav-link px-2 py-1 rounded">Полезное</a>
+        <a href="models.html" class="nav-link px-2 py-1 rounded">Модели</a>
+        <a href="promotions.html" class="nav-link px-2 py-1 rounded">Акции</a>
+        <a href="masterclasses.html" class="nav-link px-2 py-1 rounded">Мастер-классы</a>
+        <a href="profile.html" class="nav-link px-2 py-1 rounded">👤 ЛК</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4 py-8">
+    <h2 class="text-4xl font-bold mb-8" style="background: linear-gradient(135deg, #d950a9, #a532c2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Каталог комплектов</h2>
+
+    <div class="bg-white rounded-2xl shadow p-6 mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div>
+          <label class="block text-sm font-bold mb-1">Вид заготовок</label>
+          <select id="filter-type" class="filter-select">
+            <option value="">Все</option><option value="дреды">Дреды</option><option value="косы">Косы</option><option value="локоны">Локоны</option><option value="свободный конец">Свободный конец</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-bold mb-1">Подвид</label>
+          <select id="filter-subtype" class="filter-select" disabled><option value="">Выберите вид</option></select>
+        </div>
+        <div>
+          <label class="block text-sm font-bold mb-1">Длина</label>
+          <select id="filter-length" class="filter-select">
+            <option value="">Все</option><option value="мини">Мини</option><option value="стандарт">Стандарт</option><option value="макси">Макси</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-bold mb-1">Объём</label>
+          <select id="filter-volume" class="filter-select">
+            <option value="">Все</option><option value="мало">Мало</option><option value="средне">Средне</option><option value="много">Много</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-bold mb-1">Приобрести</label>
+          <select id="filter-purchase" class="filter-select">
+            <option value="">Все</option><option value="аренда бу">Аренда Б/У</option><option value="аренда новый">Аренда новый</option><option value="покупка бу">Покупка Б/У</option><option value="покупка новый">Покупка новый</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-3">
+        <button id="apply-filters" class="btn-primary">Применить</button>
+        <button id="reset-filters" class="py-2 px-4 rounded-lg border font-semibold" style="border-color: #d950a9; color: #d950a9;">Сбросить</button>
+      </div>
+    </div>
+
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+  </main>
+
+  <!-- Модальное окно "Подробнее" -->
+  <div id="detail-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+      <div id="detail-body"></div>
+    </div>
+  </div>
+
+  <!-- Модальное окно консультации -->
+  <div id="consultation-modal" class="consultation-modal">
+    <div class="modal-content text-center">
+      <button class="modal-close" onclick="closeConsultationModal()">&times;</button>
+      <h3 class="text-2xl font-bold mb-6" style="color: #d950a9;">Свяжитесь с нами</h3>
+      <div class="flex flex-col gap-4 text-lg">
+        <a href="https://wa.me/79991234567" target="_blank" class="hover:text-green-500">💬 WhatsApp</a>
+        <a href="https://t.me/beauty" target="_blank" class="hover:text-blue-400">✈️ Telegram</a>
+        <a href="https://vk.com/beauty" target="_blank" class="hover:text-blue-600">📱 VKontakte</a>
+        <a href="https://instagram.com/beauty" target="_blank" class="hover:text-pink-400">📸 Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-gray-900 text-white mt-20">
+    <div class="container mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div><h3 class="text-xl font-bold mb-4" style="color: #d950a9;">Beauty Studio</h3><p class="text-gray-400">📍 г. Екатеринбург</p><p class="text-gray-400">📞 +7 (999) 123-45-67</p></div>
+      <div><h3 class="text-xl font-bold mb-4" style="color: #d950a9;">Соцсети</h3><a href="#" class="block text-gray-400 hover:text-blue-400">💬 Telegram</a><a href="#" class="block text-gray-400 hover:text-blue-400">📱 VK</a></div>
+      <div><h3 class="text-xl font-bold mb-4" style="color: #d950a9;">Реквизиты</h3><p class="text-gray-400 text-sm">ИП Иванова А.А.</p></div>
+      <div><h3 class="text-xl font-bold mb-4" style="color: #d950a9;">Информация</h3><a href="#" class="block text-gray-400 text-sm">Политика конфиденциальности</a></div>
+    </div>
+    <div class="border-t border-gray-800 py-4 text-center text-gray-600 text-sm">© 2024 Beauty Studio</div>
+  </footer>
+
+  <script>
+    const products = [
+      { id: 1, article: "DR-KR-001", name: "Дреды крючковые мини", type: "дреды", subtype: "крючковые", length: "мини", volume: "мало", weight: 320, material: "канекалон", qty: 60, ends: 120, lengthCm: 40, priceRent: 1200, priceBuy: 3500, image: "https://placehold.co/300x200/f8d5e8/d950a9?text=Дреды+мини" },
+      { id: 2, article: "DR-GL-002", name: "Дреды гладкие стандарт", type: "дреды", subtype: "гладкие", length: "стандарт", volume: "средне", weight: 420, material: "канекалон", qty: 60, ends: 120, lengthCm: 60, priceRent: 1500, priceBuy: 4200, image: "https://placehold.co/300x200/f8d5e8/d950a9?text=Дреды+станд" },
+      { id: 3, article: "KS-SN-003", name: "Косы сенегальские макси", type: "косы", subtype: "сенегальские", length: "макси", volume: "много", weight: 550, material: "канекалон", qty: 80, ends: 160, lengthCm: 80, priceRent: 2000, priceBuy: 5500, image: "https://placehold.co/300x200/f8d5e8/d950a9?text=Косы+макси" },
+      { id: 4, article: "LK-AR-004", name: "Локоны Ариэль", type: "локоны", subtype: "Ариэль", length: "стандарт", volume: "средне", weight: 380, material: "термоволокно", qty: 70, ends: 70, lengthCm: 55, priceRent: 1800, priceBuy: 4800, image: "https://placehold.co/300x200/f8d5e8/d950a9?text=Локоны+Ариэль" },
+      { id: 5, article: "SV-PR-005", name: "Косы с прямым концом", type: "свободный конец", subtype: "косы с прямым концом", length: "стандарт", volume: "мало", weight: 280, material: "канекалон", qty: 50, ends: 100, lengthCm: 50, priceRent: 900, priceBuy: 2500, image: "https://placehold.co/300x200/f8d5e8/d950a9?text=Свободный+конец" },
+      { id: 6, article: "DR-DL-006", name: "Дреды долли макси", type: "дреды", subtype: "долли", length: "макси", volume: "много", weight: 600, material: "канекалон", qty: 70, ends: 140, lengthCm: 85, priceRent: 2200, priceBuy: 6000, image: "https://placehold.co/300x200/f8d5e8/d950a9?text=Дреды+долли" }
+    ];
+
+    const subtypes = {
+      "дреды": ["крючковые", "фактурные", "гладкие", "завитые", "долли"],
+      "косы": ["трёхпрядные", "сенегальские", "ажурные"],
+      "локоны": ["Ариэль", "Джессика", "Симба", "другие"],
+      "свободный конец": ["косы с прямым концом", "косы с волнистым концом", "дреды с прямым концом", "дреды с волнистым концом"]
+    };
+
+    function updateSubtypeSelect(typeSelectId, subtypeSelectId) {
+      const ts = document.getElementById(typeSelectId);
+      const ss = document.getElementById(subtypeSelectId);
+      const val = ts.value;
+      ss.innerHTML = '<option value="">Все</option>';
+      if (val && subtypes[val]) {
+        subtypes[val].forEach(s => ss.innerHTML += `<option value="${s}">${s}</option>`);
+        ss.disabled = false;
+      } else { ss.disabled = true; }
+    }
+    document.getElementById('filter-type').addEventListener('change', () => updateSubtypeSelect('filter-type', 'filter-subtype'));
+
+    function openDetailModal(id) {
+      const p = products.find(p => p.id === id);
+      document.getElementById('detail-body').innerHTML = `
+        <img src="${p.image}" class="w-full h-56 object-cover rounded-xl mb-4">
+        <p class="text-sm text-gray-400 mb-1">Артикул: ${p.article}</p>
+        <h2 class="text-2xl font-bold mb-2">${p.name}</h2>
+        <div class="grid grid-cols-2 gap-3 text-sm mb-4">
+          <div><strong>Вид:</strong> ${p.type}</div><div><strong>Подвид:</strong> ${p.subtype}</div>
+          <div><strong>Количество:</strong> ${p.qty} шт. / ${p.ends} кончиков</div>
+          <div><strong>Длина:</strong> ${p.lengthCm} см</div>
+          <div><strong>Вес:</strong> ${p.weight} гр</div><div><strong>Материал:</strong> ${p.material}</div>
+        </div>
+        <p class="text-green-600 text-sm mb-4">✅ Комплект готов к отправке или вплетению в нашей мастерской в Екатеринбурге</p>
+        <p class="text-3xl font-bold" style="color: #d950a9;">${p.priceBuy} ₽</p>
+        <p class="text-xs text-gray-500 mb-4">Возможна рассрочка на 3/6 месяцев</p>
+        <div class="flex gap-3 mb-3">
+          <button onclick="addToCart(${p.id}, 'buy')" class="flex-1 btn-primary">Купить</button>
+          <button onclick="openConsultationModal()" class="flex-1 py-2 px-4 rounded-lg border-2 font-semibold" style="border-color: #a532c2; color: #a532c2;">Бесплатная консультация</button>
+        </div>
+        <a href="booking.html" class="block text-center py-3 rounded-lg text-white font-bold" style="background: linear-gradient(135deg, #d950a9, #a532c2);">Записаться на вплетение</a>
+      `;
+      document.getElementById('detail-modal').classList.add('active');
+    }
+    function closeDetailModal() { document.getElementById('detail-modal').classList.remove('active'); }
+    document.getElementById('detail-modal').addEventListener('click', e => { if (e.target === document.getElementById('detail-modal')) closeDetailModal(); });
+
+    function openConsultationModal() { document.getElementById('consultation-modal').classList.add('active'); }
+    function closeConsultationModal() { document.getElementById('consultation-modal').classList.remove('active'); }
+    document.getElementById('consultation-modal').addEventListener('click', e => { if (e.target === document.getElementById('consultation-modal')) closeConsultationModal(); });
+
+    function renderProducts(f = {}) {
+      document.getElementById('product-grid').innerHTML = products.filter(p => {
+        if (f.type && p.type !== f.type) return false;
+        if (f.subtype && p.subtype !== f.subtype) return false;
+        if (f.length && p.length !== f.length) return false;
+        if (f.volume && p.volume !== f.volume) return false;
+        return true;
+      }).map(p => `
+        <div class="card flex flex-col">
+          <img src="${p.image}" class="w-full h-44 object-cover rounded-lg mb-3">
+          <h3 class="font-bold text-lg">${p.name}</h3>
+          <p class="text-sm text-gray-500">${p.qty} шт. / ${p.ends} кончиков, ${p.lengthCm} см, ${p.weight} гр</p>
+          <div class="mt-2 space-y-1 text-sm">
+            <p>Аренда: <span style="color:#d950a9;">${p.priceRent} ₽</span></p>
+            <p>Покупка: <span style="color:#a532c2;">${p.priceBuy} ₽</span></p>
+          </div>
+          <div class="mt-auto flex gap-2 pt-3">
+            <button onclick="addToCart(${p.id}, 'rent')" class="flex-1 py-2 text-sm rounded-lg text-white" style="background:#d950a9;">Аренда</button>
+            <button onclick="addToCart(${p.id}, 'buy')" class="flex-1 py-2 text-sm rounded-lg text-white" style="background:#a532c2;">Купить</button>
+          </div>
+          <button onclick="openDetailModal(${p.id})" class="mt-2 text-sm underline text-gray-500">Подробнее</button>
+        </div>
+      `).join('');
+    }
+
+    function applyFilters() {
+      renderProducts({ type: document.getElementById('filter-type').value, subtype: document.getElementById('filter-subtype').value, length: document.getElementById('filter-length').value, volume: document.getElementById('filter-volume').value });
+    }
+    document.getElementById('apply-filters').addEventListener('click', applyFilters);
+    document.getElementById('reset-filters').addEventListener('click', () => {
+      document.getElementById('filter-type').value = ''; updateSubtypeSelect('filter-type', 'filter-subtype');
+      document.getElementById('filter-length').value = ''; document.getElementById('filter-volume').value = ''; document.getElementById('filter-purchase').value = '';
+      renderProducts({});
+    });
+
+    function addToCart(pid, mode) {
+      const p = products.find(p => p.id === pid);
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const ex = cart.find(i => i.id === p.id && i.mode === mode);
+      ex ? ex.qty++ : cart.push({ id: p.id, name: p.name, mode, price: mode === 'rent' ? p.priceRent : p.priceBuy, image: p.image, qty: 1 });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${p.name} добавлен в корзину`);
+    }
+
+    renderProducts({});
+  </script>
+</body>
+</html>

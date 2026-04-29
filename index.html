@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Afrova_my — Мастерская брейдинга</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Новый шрифт -->
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Montserrat+Alternates:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { 
+      background-color: #fffafa; 
+      font-family: 'Montserrat Alternates', 'Segoe UI', system-ui, sans-serif; 
+      margin: 0; 
+    }
+    h1, h2, .graffiti {
+      font-family: 'Permanent Marker', 'Montserrat Alternates', cursive;
+      letter-spacing: 0.02em;
+    }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+    .animate-in { animation: fadeInUp 0.8s ease forwards; }
+    .animate-pulse-slow { animation: pulse 2.5s ease-in-out infinite; }
+    .scroll-strip { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 1rem; }
+    .scroll-strip::-webkit-scrollbar { height: 6px; }
+    .scroll-strip::-webkit-scrollbar-thumb { background: #d950a9; border-radius: 10px; }
+    .scroll-item { scroll-snap-align: start; min-width: 260px; max-width: 300px; flex-shrink: 0; }
+    .search-dropdown { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; opacity: 0; }
+    .search-dropdown.open { max-height: 200px; opacity: 1; }
+    .hamburger-line { width: 24px; height: 2px; background: #d950a9; margin: 5px 0; transition: 0.3s; }
+    .hamburger.open .line1 { transform: rotate(-45deg) translate(-5px,5px); }
+    .hamburger.open .line2 { opacity: 0; }
+    .hamburger.open .line3 { transform: rotate(45deg) translate(-5px,-5px); }
+    .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .mobile-menu.open { max-height: 500px; }
+    .model-photo { transition: transform 0.5s ease; }
+    .model-photo:hover { transform: scale(1.03); }
+    .btn-hover { transition: all 0.3s ease; }
+    .btn-hover:hover { filter: brightness(0.85); transform: translateY(-2px); }
+    .border-btn-hover { transition: all 0.3s ease; }
+    .border-btn-hover:hover { background: rgba(169,50,194,0.1); transform: translateY(-2px); }
+    .faq-answer { display: none; padding: 0.5rem 0 0.5rem 1rem; }
+    .faq-question { cursor: pointer; font-weight: bold; padding: 0.75rem 0; border-bottom: 1px solid #e5e7eb; transition: color 0.2s; text-align: left; }
+    .faq-question:hover { color: #d950a9; }
+    .faq-question.active + .faq-answer { display: block; }
+  </style>
+</head>
+<body class="text-gray-800 text-center">
+
+  <!-- ===== ВЕРХНЯЯ ПАНЕЛЬ ===== -->
+  <div class="bg-gray-900 text-gray-400 text-xs py-2 px-4 hidden md:block">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex gap-4">
+        <span>📍 г. Екатеринбург, ул. Куйбышева, 88</span>
+        <a href="tel:+79965954368" class="hover:text-white">📞 +7 (996) 595-43-68</a>
+      </div>
+      <div class="flex gap-3">
+        <a href="https://vk.ru/afrova_my_dreads" target="_blank" class="hover:text-white">📱 VK</a>
+        <a href="https://www.instagram.com/afrova_my" target="_blank" class="hover:text-white">📸 IG</a>
+        <a href="https://www.tiktok.com/@afrova_my" target="_blank" class="hover:text-white">🎵 TT</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ОСНОВНАЯ ШАПКА ===== -->
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center py-3">
+        <a href="index.html" class="text-2xl md:text-3xl font-extrabold tracking-tight graffiti" style="background: linear-gradient(135deg, #d950a9, #a532c2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Afrova_my</a>
+        <div class="hidden lg:flex items-center gap-6 text-sm font-semibold">
+          <a href="catalog-sets.html" class="hover:text-pink-500 transition">Комплекты</a>
+          <a href="masters.html" class="hover:text-pink-500 transition">Мастера</a>
+          <a href="portfolio.html" class="hover:text-pink-500 transition">Работы</a>
+          <a href="useful.html" class="hover:text-pink-500 transition">Полезное</a>
+          <a href="models.html" class="hover:text-pink-500 transition">Модели</a>
+          <a href="promotions.html" class="hover:text-pink-500 transition">Акции</a>
+          <a href="masterclasses.html" class="hover:text-pink-500 transition">Мастер-классы</a>
+          <a href="price-list.html" class="hover:text-pink-500 transition">Цены</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="toggleSearch()" class="text-xl">🔍</button>
+          <a href="profile.html#cart" class="relative text-xl" style="color: #d950a9;">🛒<span id="cart-badge-top" class="absolute -top-1 -right-2 text-xs bg-pink-500 text-white rounded-full w-4 h-4 flex items-center justify-center" style="display:none;">0</span></a>
+          <a href="profile.html" class="text-xl">👤</a>
+          <button class="lg:hidden hamburger" onclick="toggleMobileMenu()" id="hamburger-btn">
+            <div class="hamburger-line line1"></div><div class="hamburger-line line2"></div><div class="hamburger-line line3"></div>
+          </button>
+        </div>
+      </div>
+      <div class="search-dropdown pb-3" id="search-dropdown">
+        <input type="text" placeholder="Поиск по каталогу..." class="w-full p-2 border rounded-lg text-sm" id="search-input" oninput="liveSearch()">
+        <div id="search-results" class="mt-2 text-sm text-left"></div>
+      </div>
+      <div class="mobile-menu lg:hidden pb-4" id="mobile-menu">
+        <div class="flex flex-col gap-2 text-sm font-semibold">
+          <a href="catalog-sets.html" class="py-2 px-2 rounded hover:bg-pink-50">Комплекты</a>
+          <a href="masters.html" class="py-2 px-2 rounded hover:bg-pink-50">Мастера</a>
+          <a href="portfolio.html" class="py-2 px-2 rounded hover:bg-pink-50">Работы</a>
+          <a href="useful.html" class="py-2 px-2 rounded hover:bg-pink-50">Полезное</a>
+          <a href="models.html" class="py-2 px-2 rounded hover:bg-pink-50">Модели</a>
+          <a href="promotions.html" class="py-2 px-2 rounded hover:bg-pink-50">Акции</a>
+          <a href="masterclasses.html" class="py-2 px-2 rounded hover:bg-pink-50">Мастер-классы</a>
+          <a href="price-list.html" class="py-2 px-2 rounded hover:bg-pink-50">Цены</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="relative h-[450px] md:h-[550px] flex items-end justify-center text-white overflow-hidden" style="background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%), url('https://placehold.co/1200x600/3d0a3d/3d0a3d?text=Afrova_my') center/cover no-repeat;">
+    <div class="relative z-10 pb-16 px-4 text-center">
+      <h1 class="text-5xl md:text-8xl font-extrabold mb-4 drop-shadow-lg" style="font-family: 'Permanent Marker', cursive;">Мастерская брейдинга</h1>
+      <p class="text-3xl md:text-4xl font-bold mb-2 graffiti">Afrova_my</p>
+      <p class="text-lg md:text-xl mb-2 graffiti opacity-90">Плетём дреды, косы, локоны</p>
+      <p class="text-base md:text-lg mb-6 opacity-80">Специализируемся на многоразовых комплектах</p>
+      <div class="flex gap-4 justify-center flex-wrap">
+        <a href="booking.html" class="btn-hover bg-white px-8 py-3 rounded-full font-bold text-lg" style="color: #d950a9;">Записаться</a>
+        <a href="catalog-sets.html" class="border-btn-hover px-8 py-3 rounded-full font-bold text-lg border-2 border-white text-white">Каталог</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
+  <main class="container mx-auto px-4 py-8">
+
+    <!-- Слоган -->
+    <div class="mb-12 animate-in">
+      <h2 class="text-4xl md:text-6xl mb-4" style="background: linear-gradient(135deg, #d950a9, #a532c2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Создаём дреды, в которых хочется быть</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Подбираем цвет, длину и дизайн персонально, чтобы причёска идеально подходила именно Вам. Отправляем комплекты по всей России.</p>
+    </div>
+
+    <!-- Этапы -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <div class="bg-white rounded-2xl shadow p-8 animate-in" style="animation-delay:0.1s;">
+        <div class="text-5xl mb-4">🫶</div>
+        <h3 class="font-bold text-xl mb-2 graffiti">Ручная работа</h3>
+        <p class="text-sm text-gray-500">Каждый комплект создаём вручную и аккуратно собираем. Перед отправкой проверяем и укладываем дреды.</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow p-8 animate-in" style="animation-delay:0.2s;">
+        <div class="text-5xl mb-4">📦</div>
+        <h3 class="font-bold text-xl mb-2 graffiti">Доставка</h3>
+        <p class="text-sm text-gray-500">Доставляем по России через СДЭК, Яндекс и Почту России. Надёжная упаковка и трек-номер для отслеживания.</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow p-8 animate-in" style="animation-delay:0.3s;">
+        <div class="text-5xl mb-4">💳</div>
+        <h3 class="font-bold text-xl mb-2 graffiti">Оплата</h3>
+        <p class="text-sm text-gray-500">Принимаем банковские карты РФ, онлайн-оплату и QR-код. Действует бонусная программа — копите друдли и оплачивайте ими до 100% заказа.</p>
+      </div>
+    </div>
+
+    <!-- Лента -->
+    <h2 class="text-3xl md:text-5xl mb-6 animate-in" style="background: linear-gradient(135deg, #d950a9, #a532c2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Выбирайте дреды под свой вкус и планы</h2>
+    <div class="scroll-strip mb-12">
+      <div class="scroll-item bg-white rounded-2xl shadow overflow-hidden model-photo"><img src="https://placehold.co/400x500/f8d5e8/d950a9?text=Дреды+1" class="w-full h-64 object-cover"><div class="p-3"><p class="font-bold graffiti">Крючковые дреды</p><p class="text-sm text-gray-500">от 1 500 ₽</p></div></div>
+      <div class="scroll-item bg-white rounded-2xl shadow overflow-hidden model-photo"><img src="https://placehold.co/400x500/f8d5e8/a532c2?text=Дреды+2" class="w-full h-64 object-cover"><div class="p-3"><p class="font-bold graffiti">Гладкие дреды</p><p class="text-sm text-gray-500">от 1 800 ₽</p></div></div>
+      <div class="scroll-item bg-white rounded-2xl shadow overflow-hidden model-photo"><img src="https://placehold.co/400x500/e0c0e0/d950a9?text=Косы+1" class="w-full h-64 object-cover"><div class="p-3"><p class="font-bold graffiti">Сенегальские косы</p><p class="text-sm text-gray-500">от 2 500 ₽</p></div></div>
+      <div class="scroll-item bg-white rounded-2xl shadow overflow-hidden model-photo"><img src="https://placehold.co/400x500/e0c0e0/a532c2?text=Локоны+1" class="w-full h-64 object-cover"><div class="p-3"><p class="font-bold graffiti">Локоны Ариэль</p><p class="text-sm text-gray-500">от 2 000 ₽</p></div></div>
+      <div class="scroll-item bg-white rounded-2xl shadow overflow-hidden model-photo"><img src="https://placehold.co/400x500/f8d5e8/d950a9?text=Дреды+3" class="w-full h-64 object-cover"><div class="p-3"><p class="font-bold graffiti">Дреды долли</p><p class="text-sm text-gray-500">от 2 200 ₽</p></div></div>
+    </div>
+
+    <!-- Форма -->
+    <div class="bg-white rounded-2xl shadow p-8 mb-12 animate-in">
+      <h2 class="text-3xl md:text-4xl mb-6 graffiti" style="color:#d950a9;">Соберём индивидуальный комплект для Вас</h2>
+      <form id="quick-order-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+        <input type="text" placeholder="Ваше имя" class="p-3 border rounded-xl w-full" required>
+        <input type="tel" placeholder="Телефон" class="p-3 border rounded-xl w-full" required>
+        <input type="email" placeholder="Email" class="p-3 border rounded-xl w-full">
+        <select class="p-3 border rounded-xl w-full"><option>Вид заготовок</option><option>Дреды</option><option>Косы</option><option>Локоны</option><option>Свободный конец</option></select>
+        <select class="p-3 border rounded-xl w-full"><option>Длина</option><option>Мини</option><option>Стандарт</option><option>Макси</option></select>
+        <input type="text" placeholder="Цвет" class="p-3 border rounded-xl w-full">
+        <div class="md:col-span-3"><textarea placeholder="Дополнительные пожелания" class="p-3 border rounded-xl w-full" rows="2"></textarea></div>
+        <div class="md:col-span-3 flex gap-4 justify-center">
+          <button type="submit" class="btn-hover py-3 px-8 rounded-xl text-white font-bold" style="background:linear-gradient(135deg,#d950a9,#a532c2);">Отправить заявку</button>
+          <a href="booking.html" class="border-btn-hover py-3 px-8 rounded-xl border-2 font-bold" style="border-color:#a532c2;color:#a532c2;">Записаться на консультацию</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- FAQ -->
+    <h2 class="text-3xl md:text-5xl mb-6 animate-in graffiti" style="background:linear-gradient(135deg,#d950a9,#a532c2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Часто задаваемые вопросы</h2>
+    <div class="max-w-3xl mx-auto mb-12 text-left">
+      <div>
+        <div class="faq-question" onclick="this.classList.toggle('active')">Сколько можно носить дреды?</div>
+        <div class="faq-answer text-gray-600">За одно вплетение — до 3 месяцев. Затем рекомендуем обновить плетение.</div>
+      </div>
+      <div>
+        <div class="faq-question" onclick="this.classList.toggle('active')">Как мыть голову с дредами?</div>
+        <div class="faq-answer text-gray-600">Используйте мягкий безсульфатный шампунь, нанося его только на кожу головы. Тщательно просушивайте дреды после мытья.</div>
+      </div>
+      <div>
+        <div class="faq-question" onclick="this.classList.toggle('active')">Из чего Вы делаете дреды?</div>
+        <div class="faq-answer text-gray-600">Мы используем канекалон, войлок и натуральные волосы. Для каждого клиента подбираем оптимальный материал.</div>
+      </div>
+      <div>
+        <div class="faq-question" onclick="this.classList.toggle('active')">Как работает бонусная программа?</div>
+        <div class="faq-answer text-gray-600">С каждой покупки Вам начисляются друдли — 5% от суммы заказа. 1 друдль = 1 рубль. Ими можно оплатить до 100% следующего заказа.</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Кнопка онлайн-записи -->
+  <a href="booking.html" class="btn-hover fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl shadow-2xl animate-pulse-slow" style="background:linear-gradient(135deg,#d950a9,#a532c2);">📝</a>
+
+  <!-- ===== ФУТЕР ===== -->
+  <footer class="bg-gray-900 text-white mt-20">
+    <div class="container mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8 text-left">
+      <div>
+        <h3 class="text-xl font-bold mb-4 graffiti" style="color:#d950a9;">Afrova_my</h3>
+        <p class="text-gray-400">📍 г. Екатеринбург, ул. Куйбышева, 88</p>
+        <p class="text-gray-400">📞 +7 (996) 595-43-68</p>
+        <div class="mt-4 h-40 bg-gray-800 rounded-lg flex items-center justify-center text-gray-500 text-sm">
+          <iframe src="https://yandex.ru/map-widget/v1/?ll=60.597465,56.838011&z=16&pt=60.597465,56.838011,pm2rdl&text=ул.%20Куйбышева,%2088" width="100%" height="100%" frameborder="0" style="border-radius:0.5rem;" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold mb-4 graffiti" style="color:#d950a9;">Соцсети</h3>
+        <div class="space-y-2 text-sm">
+          <a href="https://vk.ru/afrova_my_dreads" target="_blank" rel="noopener" class="block text-gray-400 hover:text-blue-400">📱 VK: vk.ru/afrova_my_dreads</a>
+          <a href="https://pin.it/5vUGpck1g" target="_blank" rel="noopener" class="block text-gray-400 hover:text-red-400">📌 Pinterest: pin.it/5vUGpck1g</a>
+          <a href="https://www.tiktok.com/@afrova_my" target="_blank" rel="noopener" class="block text-gray-400 hover:text-pink-400">🎵 TikTok: @afrova_my</a>
+          <a href="https://l.likee.video/p/r3MqPN" target="_blank" rel="noopener" class="block text-gray-400 hover:text-yellow-400">🎥 Likee: l.likee.video/p/r3MqPN</a>
+          <a href="https://youtube.com/@afrova_my" target="_blank" rel="noopener" class="block text-gray-400 hover:text-red-500">▶️ YouTube: @afrova_my</a>
+          <a href="https://www.instagram.com/afrova_my" target="_blank" rel="noopener" class="block text-gray-400 hover:text-pink-300">📸 Instagram: @afrova_my</a>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold mb-4 graffiti" style="color:#d950a9;">Реквизиты</h3>
+        <div class="text-gray-400 text-sm space-y-1">
+          <p>ИП Мельгунова Юлия Дмитриевна</p>
+          <p>ИНН: 667416794860</p>
+          <p>ОГРНИП: 324665800196152</p>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold mb-4 graffiti" style="color:#d950a9;">Информация</h3>
+        <div class="space-y-2 text-sm">
+          <a href="#" class="block text-gray-400 hover:text-white">Политика конфиденциальности</a>
+          <a href="#" class="block text-gray-400 hover:text-white">Публичная оферта</a>
+          <a href="#" class="block text-gray-400 hover:text-white">Условия возврата</a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 py-4 text-center text-gray-600 text-sm">© 2024 Afrova_my. Все права защищены.</div>
+  </footer>
+
+  <script>
+    function toggleSearch(){document.getElementById('search-dropdown').classList.toggle('open')}
+    function liveSearch(){const q=document.getElementById('search-input').value.toLowerCase();document.getElementById('search-results').innerHTML=q?`<p class="text-gray-500">Результаты для «${q}»...</p>`:''}
+    function toggleMobileMenu(){document.getElementById('mobile-menu').classList.toggle('open');document.getElementById('hamburger-btn').classList.toggle('open')}
+    function updateCartBadge(){const cart=JSON.parse(localStorage.getItem('cart')||'[]');const total=cart.reduce((s,i)=>s+i.qty,0);const badge=document.getElementById('cart-badge-top');if(total>0){badge.textContent=total;badge.style.display='flex'}else badge.style.display='none'}
+    const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.style.opacity='1';entry.target.style.transform='translateY(0)'}})},{threshold:0.1});
+    document.querySelectorAll('.animate-in').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(40px)';el.style.transition='all 0.8s ease';observer.observe(el)});
+    document.getElementById('quick-order-form').addEventListener('submit',function(e){e.preventDefault();alert('Спасибо! Мы свяжемся с Вами.');this.reset()});
+    window.addEventListener('load',updateCartBadge);
+  </script>
+</body>
+</html>

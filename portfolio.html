@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Наши работы</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #fffafa; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .nav-link.active { color: #d950a9; font-weight: bold; border-bottom: 2px solid #d950a9; }
+    .filter-select { border: 1px solid #e5e7eb; padding: 0.5rem; border-radius: 0.5rem; background: white; width: 100%; }
+    .work-card { background: white; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow: hidden; transition: transform 0.2s; }
+    .work-card:hover { transform: translateY(-3px); }
+  </style>
+</head>
+<body class="text-gray-800">
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4 flex flex-wrap justify-between items-center py-4">
+      <a href="index.html" class="text-2xl font-bold" style="color: #d950a9;">Beauty Studio</a>
+      <div class="flex flex-wrap gap-2 text-sm items-center">
+        <a href="index.html" class="nav-link px-2 py-1 rounded">Главная</a>
+        <a href="catalog-sets.html" class="nav-link px-2 py-1 rounded">Комплекты</a>
+        <a href="masters.html" class="nav-link px-2 py-1 rounded">Мастера</a>
+        <a href="portfolio.html" class="nav-link px-2 py-1 rounded active">Работы</a>
+        <a href="useful.html" class="nav-link px-2 py-1 rounded">Полезное</a>
+        <a href="models.html" class="nav-link px-2 py-1 rounded">Модели</a>
+        <a href="promotions.html" class="nav-link px-2 py-1 rounded">Акции</a>
+        <a href="masterclasses.html" class="nav-link px-2 py-1 rounded">Мастер-классы</a>
+        <a href="profile.html" class="nav-link px-2 py-1 rounded">👤 ЛК</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4 py-8">
+    <h2 class="text-4xl font-bold mb-8" style="background: linear-gradient(135deg, #d950a9, #a532c2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Наши работы</h2>
+
+    <!-- Фильтры -->
+    <div class="bg-white rounded-2xl shadow p-6 mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div>
+          <label class="block text-sm font-bold mb-1">Вид заготовок</label>
+          <select id="pf-type" class="filter-select">
+            <option value="">Все</option><option value="дреды">Дреды</option><option value="косы">Косы</option><option value="локоны">Локоны</option><option value="свободный конец">Свободный конец</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-bold mb-1">Подвид</label>
+          <select id="pf-subtype" class="filter-select" disabled><option value="">Выберите вид</option></select>
+        </div>
+        <div>
+          <label class="block text-sm font-bold mb-1">Длина</label>
+          <select id="pf-length" class="filter-select">
+            <option value="">Все</option><option value="мини">Мини</option><option value="стандарт">Стандарт</option><option value="макси">Макси</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-bold mb-1">Объём</label>
+          <select id="pf-volume" class="filter-select">
+            <option value="">Все</option><option value="мало">Мало</option><option value="средне">Средне</option><option value="много">Много</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-3">
+        <button id="pf-apply" class="py-2 px-6 rounded-lg text-white font-semibold" style="background: linear-gradient(135deg, #d950a9, #a532c2);">Применить</button>
+        <button id="pf-reset" class="py-2 px-4 rounded-lg border font-semibold" style="border-color: #d950a9; color: #d950a9;">Сбросить</button>
+      </div>
+    </div>
+
+    <!-- Галерея: 3 строки × 4 столбца = 12 работ -->
+    <div id="works-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+  </main>
+
+  <footer class="bg-gray-900 text-white mt-20">
+    <div class="container mx-auto px-4 py-8 text-center text-gray-400">© 2024 Beauty Studio</div>
+  </footer>
+
+  <script>
+    const works = [
+      { type: "дреды", subtype: "крючковые", length: "мини", volume: "мало", desc: "Дреды крючковые, мини, мало", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Дреды+1" },
+      { type: "дреды", subtype: "гладкие", length: "стандарт", volume: "средне", desc: "Дреды гладкие, стандарт, средне", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Дреды+2" },
+      { type: "косы", subtype: "сенегальские", length: "макси", volume: "много", desc: "Косы сенегальские, макси, много", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Косы+1" },
+      { type: "косы", subtype: "трёхпрядные", length: "стандарт", volume: "средне", desc: "Косы трёхпрядные, стандарт, средне", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Косы+2" },
+      { type: "локоны", subtype: "Ариэль", length: "стандарт", volume: "средне", desc: "Локоны Ариэль, стандарт, средне", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Локоны+1" },
+      { type: "локоны", subtype: "Джессика", length: "макси", volume: "много", desc: "Локоны Джессика, макси, много", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Локоны+2" },
+      { type: "свободный конец", subtype: "косы с прямым концом", length: "стандарт", volume: "мало", desc: "Косы с прямым концом, стандарт, мало", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Свободный+1" },
+      { type: "свободный конец", subtype: "дреды с волнистым концом", length: "макси", volume: "много", desc: "Дреды с волнистым концом, макси, много", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Свободный+2" },
+      { type: "дреды", subtype: "долли", length: "макси", volume: "много", desc: "Дреды долли, макси, много", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Дреды+долли" },
+      { type: "косы", subtype: "ажурные", length: "мини", volume: "мало", desc: "Косы ажурные, мини, мало", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Косы+ажур" },
+      { type: "локоны", subtype: "Симба", length: "стандарт", volume: "средне", desc: "Локоны Симба, стандарт, средне", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Локоны+Симба" },
+      { type: "дреды", subtype: "завитые", length: "стандарт", volume: "средне", desc: "Дреды завитые, стандарт, средне", img: "https://placehold.co/300x300/f8d5e8/d950a9?text=Дреды+завитые" }
+    ];
+
+    const subtypes = {
+      "дреды": ["крючковые", "фактурные", "гладкие", "завитые", "долли"],
+      "косы": ["трёхпрядные", "сенегальские", "ажурные"],
+      "локоны": ["Ариэль", "Джессика", "Симба", "другие"],
+      "свободный конец": ["косы с прямым концом", "косы с волнистым концом", "дреды с прямым концом", "дреды с волнистым концом"]
+    };
+
+    document.getElementById('pf-type').addEventListener('change', function() {
+      const ss = document.getElementById('pf-subtype');
+      ss.innerHTML = '<option value="">Все</option>';
+      if (this.value && subtypes[this.value]) {
+        subtypes[this.value].forEach(s => ss.innerHTML += `<option value="${s}">${s}</option>`);
+        ss.disabled = false;
+      } else ss.disabled = true;
+    });
+
+    function renderWorks(f = {}) {
+      document.getElementById('works-grid').innerHTML = works.filter(w => {
+        if (f.type && w.type !== f.type) return false;
+        if (f.subtype && w.subtype !== f.subtype) return false;
+        if (f.length && w.length !== f.length) return false;
+        if (f.volume && w.volume !== f.volume) return false;
+        return true;
+      }).map(w => `
+        <div class="work-card">
+          <img src="${w.img}" class="w-full h-40 object-cover">
+          <div class="p-3">
+            <p class="text-xs text-gray-600">${w.desc}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('pf-apply').addEventListener('click', () => {
+      renderWorks({
+        type: document.getElementById('pf-type').value,
+        subtype: document.getElementById('pf-subtype').value,
+        length: document.getElementById('pf-length').value,
+        volume: document.getElementById('pf-volume').value
+      });
+    });
+    document.getElementById('pf-reset').addEventListener('click', () => {
+      document.getElementById('pf-type').value = ''; document.getElementById('pf-subtype').disabled = true;
+      document.getElementById('pf-length').value = ''; document.getElementById('pf-volume').value = '';
+      renderWorks({});
+    });
+
+    renderWorks({});
+  </script>
+</body>
+</html>
